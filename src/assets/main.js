@@ -3,20 +3,20 @@ let attempt = document.getElementById('attempt');
 
 function guess() {
     let input = document.getElementById('user-guess');
-    if(answer == '' && attempt == '') { 
+    if(answer.value == '' && attempt.value == '') { 
         setHiddenFields();
     }
     if(!validateInput(input.value)) {
         return false;
     } else {
-        attempt++;
+        attempt.value++;
     }
     if(getResults()) {
         setMessage("You Win! :)");
         showAnswer(true);
         showReplay();
     } else {
-        if(attempt>=10) {
+        if(attempt.value>=10) {
             setMessage("You Lose! :()");
             showAnswer(false);
             showReplay();
@@ -28,10 +28,10 @@ function guess() {
 }
 
 function setHiddenFields() {
-    attempt = 0;
-    answer = Math.floor(Math.random(10000));
-    while(answer.toString()>4) {
-        answer = 0 + answer;
+    attempt.value = 0;
+    answer.value = Math.floor(Math.random(10000));
+    while(answer.value.toString()>4) {
+        answer.value = 0 + answer.value;
     }
 }
 
@@ -40,7 +40,7 @@ function setMessage(message) {
 }
 
 function validateInput(input) {
-    if(input.length == 4) {
+    if(input.value.toString().length == 4) {
         return true;
     } else {
         setMessage("Guesses must be exactly 4 characters long.");
@@ -49,7 +49,7 @@ function validateInput(input) {
 }
 
 function getResults() {
-    if(input == answer) {
+    if(input == answer.value) {
         return true;
     } else {
         return false;
