@@ -11,7 +11,7 @@ function guess() {
     } else {
         attempt.value++;
     }
-    if(getResults()) {
+    if(getResults(input.value)) {
         setMessage("You Win! :)");
         showAnswer(true);
         showReplay();
@@ -24,7 +24,6 @@ function guess() {
             setMessage("Incorrect, try Again.");
         }
     }
-    //add functionality to guess function here
 }
 
 function setHiddenFields() {
@@ -40,7 +39,7 @@ function setMessage(message) {
 }
 
 function validateInput(input) {
-    if(input.value.toString().length == 4) {
+    if(input.length == 4) {
         return true;
     } else {
         setMessage("Guesses must be exactly 4 characters long.");
@@ -48,7 +47,20 @@ function validateInput(input) {
     }
 }
 
-function getResults() {
+function getResults(input) {
+    let html = '<div class="row"><span class="col-md-6">' + input + '</span><div class="col-md-6">'
+    for( i = 0; i < input.length; i++) {
+        if(input.charAt(i) == answer.value.charAt(i)) {
+            html += '<span class="glyphicon glyphicon-ok"></span>';
+        } else if(answer.value.indexOf(input.charAt(i)) > -1) {
+            html += '<span class="glyphicon glyphicon-transfer"></span>';
+        } else {
+            html += '<span class="glyphicon glyphicon-remove"></span>';
+        }
+    }
+    html += '</div></div>';
+    document.getElementById('results').innerHTML += html;
+
     if(input == answer.value) {
         return true;
     } else {
@@ -67,6 +79,6 @@ function showAnswer(winner) {
 }
 
 function showReplay() {
-    document.getElementById('guessing-div').style.display;
-    document.getElementById('replay-div').style.block;
+    document.getElementById('guessing-div').style.display = "none";
+    document.getElementById('replay-div').style.display = "block";
 }
