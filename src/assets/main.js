@@ -1,22 +1,23 @@
-let answer = document.getElementById('answer');
-let attempt = document.getElementById('attempt');
+let answerElement = document.getElementById('answer');
+let attemptElement = document.getElementById('attempt');
 
 function guess() {
-    let input = document.getElementById('user-guess');
-    if(answer.value == '' && attempt.value == '') { 
+    let inputElement = document.getElementById('user-guess');
+    console.log('logging this..')
+    if(answerElement.value == '' && attemptElement.value == '') { 
         setHiddenFields();
     }
-    if(!validateInput(input.value)) {
+    if(!validateInput(inputElement.value)) {
         return false;
     } else {
-        attempt.value++;
+        attemptElement.value++;
     }
-    if(getResults(input.value)) {
+    if(getResults(inputElement.value)) {
         setMessage("You Win! :)");
         showAnswer(true);
         showReplay();
     } else {
-        if(attempt.value >= 10) {
+        if(attemptElement.value >= 10) {
             setMessage("You Lose! :(");
             showAnswer(false);
             showReplay();
@@ -27,10 +28,10 @@ function guess() {
 }
 
 function setHiddenFields() {
-    attempt.value = 0;
-    answer.value = Math.floor(Math.random()*10000);
-    while(answer.value.length < 4) {
-        answer.value = 0 + answer.value.toString();
+    attemptElement.value = 0;
+    answerElement.value = Math.floor(Math.random()*10000);
+    while(answerElement.value.length < 4) {
+        answerElement.value = "0" + answerElement.value.toString();
     }
 }
 
@@ -38,8 +39,8 @@ function setMessage(message) {
     document.getElementById('message').innerHTML = message;
 }
 
-function validateInput(input) {
-    if(input.length == 4) {
+function validateInput(userGuess) {
+    if(userGuess.length == 4) {
         return true;
     } else {
         setMessage("Guesses must be exactly 4 characters long.");
@@ -49,10 +50,11 @@ function validateInput(input) {
 
 function getResults(input) {
     let html = '<div class="row"><span class="col-md-6">' + input + '</span><div class="col-md-6">'
+
     for( i = 0; i < input.length; i++) {
-        if(input.charAt(i) == answer.value.charAt(i)) {
+        if(input.charAt(i) == answerElement.value.charAt(i)) {
             html += '<span class="glyphicon glyphicon-ok"></span>';
-        } else if(answer.value.indexOf(input.charAt(i)) > -1) {
+        } else if(answerElement.value.indexOf(input.charAt(i)) > -1) {
             html += '<span class="glyphicon glyphicon-transfer"></span>';
         } else {
             html += '<span class="glyphicon glyphicon-remove"></span>';
@@ -61,7 +63,7 @@ function getResults(input) {
     html += '</div></div>';
     document.getElementById('results').innerHTML += html;
 
-    if(input == answer.value) {
+    if(input == answerElement.value) {
         return true;
     } else {
         return false;
@@ -69,8 +71,8 @@ function getResults(input) {
 }
 
 function showAnswer(winner) {
-    let code =document.getElementById('code');
-    code.innerHTML = answer.value;
+    let code = document.getElementById('code');
+    code.innerHTML = answerElement.value;
     if(winner) {
         code.className += " success"
     } else {
